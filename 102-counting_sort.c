@@ -1,46 +1,52 @@
 #include "sort.h"
+#include <stdlib.h>
+#include <stdio.h>
 
 /**
- * counting_sort - Sorts an array of integers in ascending order
- * using the Counting sort algorithm.
- * @array: The array to be sorted
- * @size: The size of the array
- */
+  * counting_sort - Afunction that sorts an array using counting algorithm.
+  * @array: The array to sort.
+  * @size: The length of the array.
+  * Return: Nothing.
+  */
 void counting_sort(int *array, size_t size)
 {
-	int i, max, *count_array;
-	size_t i, idx;
+	unsigned int i = 1;
+	int *counter = NULL, k = 0, j = 0;
+
 	if (array == NULL || size < 2)
 		return;
-	/* Find the maximum value in the array */
-	max = array[0];
-	for (i = 1; i < size; i++)
+
+	k = array[0];
+	for (; i < size; i++)
 	{
-		if (array[i] > max)
-			max = array[i];
-	}
-	/* Create a counting array with size (max + 1) */
-	count_array = malloc((max + 1) * sizeof(int));
-	if (count_array == NULL)
-		return;
-	/* Populate the counting array with the frequency of each element */
-	for (i = 0; i < size; i++)
-		count_array[array[i]]++;
-	/* Print the counting array */
-	for (i = 0; i <= max; i++)
-		printf("%d%s", count_array[i], (i == max) ? "\n" : ", ");
-	/* Update the original array with sorted values */
-	idx = 0;
-	for (i = 0; i <= max; i++)
-	{
-		while (count_array[i] > 0)
-		{
-			array[idx] = i;
-			idx++;
-			count_array[i]--;
-		}
+		if (array[i] > k)
+			k = array[i];
 	}
 
-	/* Free the counting array */
-	free(count_array);
+	counter = malloc(sizeof(int) * (k + 1));
+	if (counter == NULL)
+		return;
+
+	for (j = 0; j <= k; j++)
+		counter[j] = 0;
+	for (i = 0; i < size; i++)
+		counter[array[i]] += 1;
+	for (j = 0; j < k; j++)
+	{
+		counter[j + 1] += counter[j];
+		printf("%d, ", counter[j]);
+	}
+	counter[j + 1] += counter[j];
+	printf("%d\n", counter[j + 1]);
+	for (i = 0; i < size; i++)
+	{
+		j = counter[array[i]] - 1;
+		if (array[i] != array[j])
+		{
+			k = array[i];
+			array[i] = array[j];
+			array[j] = k;
+		}
+	}
+	free(counter);
 }
