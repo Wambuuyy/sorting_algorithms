@@ -30,7 +30,7 @@ void countingSort(int *array, size_t size, int exp)
 {
     const int radix = 10; /* The base of the number system*/
     int *output = malloc(size * sizeof(int));
-    int  count[radix] = {0}, j;
+    int count[10], j;
     size_t i, k, l;
     
     if (output == NULL)
