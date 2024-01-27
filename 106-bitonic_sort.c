@@ -11,25 +11,27 @@
  */
 void bitonic_merge(int *array, size_t low, size_t count, int up)
 {
+    size_t i;
+
     if (count > 1)
     {
         size_t k = count / 2;
-        for (size_t i = low; i < low + k; i++)
+        for (i = low; i < low + k; i++)
         {
             if ((array[i] > array[i + k]) == up)
             {
-                // Swap elements if they are in the wrong order
+                /* Swap elements if they are in the wrong order*/
                 int temp = array[i];
                 array[i] = array[i + k];
                 array[i + k] = temp;
 
-                // Print the array after swapping elements
+                /* Print the array after swapping elements*/
                 printf("Merging [%lu/%lu] (%s):\n", count, count * 2, (up) ? "UP" : "DOWN");
                 print_array(array, count * 2);
             }
         }
 
-        // Recursively merge both halves in the given direction
+        /* Recursively merge both halves in the given direction*/
         bitonic_merge(array, low, k, up);
         bitonic_merge(array, low + k, k, up);
     }
@@ -44,17 +46,19 @@ void bitonic_merge(int *array, size_t low, size_t count, int up)
  */
 void bitonic_sort_recursive(int *array, size_t low, size_t count, int up)
 {
+    size_t k;
+
     if (count > 1)
     {
-        size_t k = count / 2;
+        k = count / 2;
 
-        // Sort the first half in ascending order
+        /* Sort the first half in ascending order*/
         bitonic_sort_recursive(array, low, k, 1);
 
-        // Sort the second half in descending order
+        /*Sort the second half in descending order*/
         bitonic_sort_recursive(array, low + k, k, 0);
 
-        // Merge the sorted sequence
+        /* Merge the sorted sequence*/
         bitonic_merge(array, low, count, up);
     }
 }
@@ -67,8 +71,8 @@ void bitonic_sort_recursive(int *array, size_t low, size_t count, int up)
 void bitonic_sort(int *array, size_t size)
 {
     if (array == NULL || size < 1 || (size & (size - 1)) != 0)
-        return; // Check if size is a power of 2
+        return; /* Check if size is a power of 2*/
 
-    // Initially, the entire sequence is in increasing order (UP)
+    /* Initially, the entire sequence is in increasing order (UP)*/
     bitonic_sort_recursive(array, 0, size, 1);
 }
