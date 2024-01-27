@@ -29,13 +29,11 @@ int getMax(int *array, size_t size)
 void countingSort(int *array, size_t size, int exp)
 {
     const int radix = 10; /* The base of the number system*/
-    int *output = malloc(size * sizeof(int)), count, j;
+    int *output = malloc(size * sizeof(int)), count[radix] = {0}, j;
     size_t i, k, l;
     
     if (output == NULL)
         return;
-
-    count[radix + 1] = {0};
 
     /* Count the occurrences of each digit at the current place value*/
     for (i = 0; i < size; i++)
@@ -74,7 +72,7 @@ void radix_sort(int *array, size_t size)
 
     max = getMax(array, size);
 
-    // Perform counting sort for every digit, starting from the least significant
+    /* Perform counting sort for every digit, starting from the least significant*/
     for (exp = 1; max / exp > 0; exp *= 10)
         countingSort(array, size, exp);
 }
