@@ -29,7 +29,8 @@ int getMax(int *array, size_t size)
 void countingSort(int *array, size_t size, int exp)
 {
     const int radix = 10; /* The base of the number system*/
-    int *output = malloc(size * sizeof(int)), count[radix] = {0}, j;
+    int *output = malloc(size * sizeof(int));
+    int  count[radix] = {0}, j;
     size_t i, k, l;
     
     if (output == NULL)
@@ -44,7 +45,7 @@ void countingSort(int *array, size_t size, int exp)
         count[j] += count[j - 1];
 
     /* Build the output array using the counting array and update counts*/
-    for (k = size - 1; k >= 0; k--) {
+    for (k = size - 1; k < size; k--) {
         output[count[(array[k] / exp) % radix] - 1] = array[k];
         count[(array[k] / exp) % radix]--;
     }
